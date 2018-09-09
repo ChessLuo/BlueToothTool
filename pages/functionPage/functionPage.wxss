@@ -1,0 +1,53 @@
+/* pages/funtionPage/functionPage.wxss */
+
+.bluetooth-detail {
+    width: 95%;
+    margin: 0 auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ddd;
+}
+.card {
+  border-radius: 10rpx;
+  background-color: #fff;
+  margin: 20rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0,0,0,.3);
+}
+.list {
+  max-height: 35vh;
+}
+
+.function-button-div {
+	width: 100%;
+	position: absolute;
+	bottom: 6%;
+  font-size: 16rpx;
+}
+.function-button-div1 {
+	width: 100%;
+	position: relative;
+}
+.function-button-div2 {
+	width: 100%;
+	position: relative;
+	top: 20px;	
+}
+/*左边的功能按钮*/
+.function-button_left {
+	width: 40%;
+	height: 44px;
+	/*border: 1px solid #f0ad4e;
+	background-color: #f0ad4e;*/
+	float: left;
+	left: 6%;
+}
+/*右边的功能按钮*/
+.function-button_right {
+	width: 40%;
+	height: 44px;
+	/*border: 1px solid #f0ad4e;
+	background-color: #f0ad4e;*/
+	float: left;
+	left: 14%;
+}

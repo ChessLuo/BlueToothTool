@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/functionPage/functionPage"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTitleText": "小程序蓝牙调试工具",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8F8F8"
+  }
+}

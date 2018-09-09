@@ -1,0 +1,29 @@
+/**app.wxss**/
+ page {
+  background-color: #F8F8F8;
+  height: 100%;
+  font-size: 32rpx;
+  line-height: 1.6;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  justify-content: space-between;
+  font-size: 32rpx;
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+.text-box{
+  margin-bottom: 10rpx;
+  margin-top: 10rpx;
+  padding: 10rpx 0;
+  display: flex;
+  min-height: 50rpx;
+  background-color: #ddf;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 30rpx;
+  color: #353535;
+  line-height: 2em;
+}

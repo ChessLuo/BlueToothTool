@@ -1,0 +1,29 @@
+<!--pages/funtionPage/funtionPage.wxml-->
+
+<view class='bluetooth-detail'>
+    <view>当前连接的蓝牙设备是：</view>
+    <view>设备名：{{name}}</view>
+    <view>设备ID：{{deviceId}}</view>
+</view>
+
+<view class='card'>
+  <view>展示log日志(可滑动查看)：</view>
+  <view >
+     <scroll-view scroll-y="true" class='text-box list'>
+          <text >{{textLog}}</text>
+        </scroll-view>
+  </view>
+</view>
+
+
+<!-- 底部按钮 --> 
+  <view class='function-button-div'>
+    <view class="function-button-div1">
+      <button type="primary" class='function-button_left' bindtap="startClear">清空log日志</button>
+      <button type="primary" class='function-button_right' bindtap="devInit">设备初始化</button>  
+    </view>
+    <view class="function-button-div2">
+      <button type="primary" class='function-button_left' bindtap="toggleBottomPopup">参数设置</button>
+      <button type="primary" class='function-button_right' bindtap="closeBLEConnection">断开蓝牙连接</button>
+    </view>
+  </view>

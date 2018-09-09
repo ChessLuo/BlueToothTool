@@ -1,0 +1,46 @@
+/* pages/index/index.wxss */
+.log {
+  width: 90%;
+  left: 5%;
+  position: relative;
+  top: 2%;
+}
+.scroll-list {
+  max-height: 100rpx;
+}
+
+.scan-view {
+  width: 90%;
+  left: 5%;
+  position: relative;
+  top: 3%;
+}
+.scan-btn {
+  height: 44px;
+}
+.clear-btn {
+  height: 44px;
+  margin-bottom: 4px;
+}
+
+.devices_summary {
+  margin-top: 30px;
+  padding: 10px 5%;
+  font-size: 16px;
+}
+.device_list {
+  height: 300px;
+  margin: 50px 5%;
+  margin-top: 0;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+  width: auto;
+}
+.device_item {
+  border-bottom: 1px solid #EEE;
+  padding: 10px;
+  color: #666;
+}
+.device_item_hover {
+  background-color: rgba(0, 0, 0, .1);
+}
