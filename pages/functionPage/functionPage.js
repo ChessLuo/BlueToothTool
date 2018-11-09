@@ -1,4 +1,6 @@
 // pages/funtionPage/funtionPage.js
+var app = getApp();
+var utils = require("../../utils/util.js");
 Page({
 
   /**
@@ -8,6 +10,7 @@ Page({
     textLog:"",
     deviceId: "",
     name: "",
+    allRes:"",
     serviceId:"",
     readCharacteristicId:"",
     writeCharacteristicId: "",
@@ -32,14 +35,21 @@ Page({
       serviceId: devserviceid 
     });
     //获取特征值
-    that.getBLEDeviceCharacteristics(devid,devserviceid);
+    that.getBLEDeviceCharacteristics();
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if (wx.setKeepScreenOn) {
+      wx.setKeepScreenOn({
+        keepScreenOn: true,
+        success: function (res) {
+          //console.log('保持屏幕常亮')
+        }
+      })
+    }
   },
 
   /**
@@ -54,6 +64,14 @@ Page({
     var that = this;
     that.setData({
       textLog: ""
+    });
+  },
+  //返回蓝牙是否正处于链接状态
+  onBLEConnectionStateChange:function (onFailCallback) {
+    wx.onBLEConnectionStateChange(function (res) {
+      // 该方法回调中可以用于处理连接意外断开等异常情况
+      console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`);
+      return res.connected;
     });
   },
   //断开与低功耗蓝牙设备的连接
@@ -75,11 +93,11 @@ Page({
     }, 2000)
   },
   //获取蓝牙设备某个服务中的所有 characteristic（特征值）
-  getBLEDeviceCharacteristics: function (deviceId, serviceId){
+  getBLEDeviceCharacteristics: function (order){
     var that = this;
     wx.getBLEDeviceCharacteristics({
-      deviceId: deviceId,
-      serviceId: serviceId,
+      deviceId: that.data.deviceId,
+      serviceId: that.data.serviceId,
       success: function (res) {
         for (let i = 0; i < res.characteristics.length; i++) {
           let item = res.characteristics[i]
@@ -97,8 +115,9 @@ Page({
               writeCharacteristicId: item.uuid,
               canWrite:true
             });
+            
           }
-          if (item.properties.notify) {//该特征值是否支持 notify或indicate 操作
+          if (item.properties.notify || item.properties.indicate) {//该特征值是否支持 notify或indicate 操作
             var log = that.data.textLog + "该特征值支持 notify 操作:" + item.uuid + "\n";
             that.setData({
               textLog: log,
@@ -111,10 +130,11 @@ Page({
 
       }
     })
+    // that.onBLECharacteristicValueChange();   //监听特征值变化
   },
   //启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值。
   //注意：必须设备的特征值支持notify或者indicate才可以成功调用，具体参照 characteristic 的 properties 属性
-  notifyBLECharacteristicValueChange:function(){
+  notifyBLECharacteristicValueChange: function (){
     var that = this;
     wx.notifyBLECharacteristicValueChange({
       state: true, // 启用 notify 功能
@@ -122,12 +142,11 @@ Page({
       serviceId: that.data.serviceId,
       characteristicId: that.data.notifyCharacteristicId,
       success: function (res) {
-        var log = that.data.textLog + "notify启动成功\n";
+        var log = that.data.textLog + "notify启动成功" + res.errMsg+"\n";
         that.setData({ 
           textLog: log,
         });
         that.onBLECharacteristicValueChange();   //监听特征值变化
-        
       },
       fail: function (res) {
         wx.showToast({
@@ -138,96 +157,75 @@ Page({
           wx.hideToast();
         }, 2000)
       }
+
     })
 
   },
   //监听低功耗蓝牙设备的特征值变化。必须先启用notify接口才能接收到设备推送的notification。
   onBLECharacteristicValueChange:function(){
     var that = this;
-    var log = that.data.textLog + "准备监听低功耗蓝牙设备的特征值变化\n";
-    that.setData({
-      textLog: log,
-    });
     wx.onBLECharacteristicValueChange(function (res) {
-      var log = that.data.textLog + "监听低功耗蓝牙设备的特征值变化\n";
+      var resValue = utils.ab2hext(res.value); //16进制字符串
+      var resValueStr = utils.hexToString(resValue);
+  
+      var log0 = that.data.textLog + "成功获取：" + resValueStr + "\n";
       that.setData({
-        textLog: log,
+        textLog: log0,
       });
-      // var resValue = that.ab2hext(res.value); //16进制字符串  
-      
+
     });
   },
-  //
-  devInit:function(){
+  //orderInput
+  orderInput:function(e){
+    this.setData({
+      orderInputStr: e.detail.value
+    })
+  },
+
+  //发送指令
+  sentOrder:function(){
     var that = this; 
-    let order = that.hexStringToArrayBuffer('SYS+NBIOTPARA1=0,600D0A');//SYS+CONFIG=?0D0A、SYS+BLUETOOTH=600D0A
-    var log = that.data.textLog + "指令：" + order + "\n";
-    that.setData({
-      textLog: log,
-    });
+    var orderStr = that.data.orderInputStr;//指令
+    let order = utils.stringToBytes(orderStr);
     that.writeBLECharacteristicValue(order);
   },
+
   //向低功耗蓝牙设备特征值中写入二进制数据。
   //注意：必须设备的特征值支持write才可以成功调用，具体参照 characteristic 的 properties 属性
-  writeBLECharacteristicValue:function(order){
+  writeBLECharacteristicValue: function (order){
     var that = this;
+    let byteLength = order.byteLength;
+    var log = that.data.textLog + "当前执行指令的字节长度:" + byteLength + "\n";
+    that.setData({
+      textLog: log,
+    });
+
     wx.writeBLECharacteristicValue({
       deviceId: that.data.deviceId,
       serviceId: that.data.serviceId,
       characteristicId: that.data.writeCharacteristicId,
       // 这里的value是ArrayBuffer类型
-      value: order,
+      value: order.slice(0, 20),
       success: function (res) {
+        if (byteLength > 20) {
+          setTimeout(function(){
+            // that.writeBLECharacteristicValue(order.slice(20, byteLength));
+          },150);
+        }
         var log = that.data.textLog + "写入成功：" + res.errMsg + "\n";
         that.setData({
           textLog: log,
         });
-        // that.onBLECharacteristicValueChange();
       },
+
       fail: function (res) {
         var log = that.data.textLog + "写入失败" + res.errMsg+"\n";
         that.setData({
           textLog: log,
         });
       }
+      
     })
   },
-  //将需要发送的数据转换成十六进制
-  hexStringToArrayBuffer: function (str) {
-    if (!str) {
-      return new ArrayBuffer(0);
-    }
-    console.log("数据转码之前", str)
-    // 要创建的 ArrayBuffer 的大小，单位为字节。
-    var buffer = new ArrayBuffer(str.length);
-    //ArrayBuffer 不能直接操作，而是要通过类型数组对象或 DataView 对象来操作，它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容。
-    var dataView = new DataView(buffer);
-    //写入通道指令 
-    for (var k = 0; k < str.length; k++) {
-      dataView.setUint8(k, str[k]);
-    }
-    // CMD_OPEN: [115, 16, 16]
-    var dataResult = [];
-    for (var i = 0; i < dataView.byteLength; i++) {
-      var str = dataView.getUint8(i).toString(16);
-      if (dataView.getUint8(i) < 16) {
-        str = '0' + str;
-      }
-      dataResult.push("0x" + str);
-    }
-    console.log("数据转码之后", dataResult);
-    return buffer;
-  },
-  // ArrayBuffer转16进制字符串示例
-  ab2hext: function (buffer) {
-    var hexArr = Array.prototype.map.call(
-      new Uint8Array(buffer),
-      function (bit) {
-        return ('00' + bit.toString(16)).slice(-2)
-      }
-    )
-    return hexArr.join('');
-  },
- 
 
 })

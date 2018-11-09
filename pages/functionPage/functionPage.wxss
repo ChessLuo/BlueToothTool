@@ -15,9 +15,25 @@
   box-shadow: 0 2rpx 4rpx rgba(0,0,0,.3);
 }
 .list {
-  max-height: 35vh;
+  max-height: 45vh;
 }
 
+.function-input{
+  width: 80%;
+	position: relative;
+  font-size: 16rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0rpx 10%; 
+}
+.input{
+  border: 1rpx solid #666;
+  width: 400rpx;
+  padding: 20rpx 10rpx;
+  font-size: 32rpx;
+}
 .function-button-div {
 	width: 100%;
 	position: absolute;

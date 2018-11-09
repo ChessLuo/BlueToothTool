@@ -11,8 +11,8 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.2.3",
-	"appid": "wx5077dd97479c355a",
+	"libVersion": "2.3.0",
+	"appid": "wx54d497a8dd210ed9",
 	"projectname": "BlueToothDemo",
 	"isGameTourist": false,
 	"condition": {
@@ -21,6 +21,10 @@
 			"list": []
 		},
 		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
 			"current": -1,
 			"list": []
 		},

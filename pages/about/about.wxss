@@ -1,0 +1,23 @@
+/* pages/about/about.wxss */
+.about{
+  padding: 15rpx;
+  background-color: #fff;
+}
+.scroll-view{
+  border-radius: 10rpx;
+  position: absolute;
+  width: 94%;
+  top: 3%;
+  left: 3%;
+  right: 3%;
+  bottom: 200rpx;
+  box-shadow: 3rpx 4rpx 8rpx rgba(0, 0, 0, 0.3);
+}
+/* 程序猿在廣東 */
+.gzh-view {
+  position: fixed;
+  bottom: 1%;
+  left: 5%;
+  width: 90%;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+}

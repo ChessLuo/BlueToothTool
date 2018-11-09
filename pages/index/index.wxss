@@ -3,24 +3,30 @@
   width: 90%;
   left: 5%;
   position: relative;
-  top: 2%;
+  margin-top: 10rpx;
 }
 .scroll-list {
-  max-height: 100rpx;
+  max-height: 300rpx;
 }
 
 .scan-view {
   width: 90%;
-  left: 5%;
-  position: relative;
-  top: 3%;
+  margin-left: 5%;
+  margin-top: 10rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between
 }
-.scan-btn {
-  height: 44px;
-}
-.clear-btn {
-  height: 44px;
-  margin-bottom: 4px;
+.scan-view button {
+position:relative;
+display:block;
+margin-left:auto;
+margin-right:auto;
+padding-left:14px;
+padding-right:14px;
+box-sizing:border-box;
+font-size:18px;
+width: 48%;
 }
 
 .devices_summary {
@@ -29,7 +35,7 @@
   font-size: 16px;
 }
 .device_list {
-  height: 300px;
+  height: 400rpx;
   margin: 50px 5%;
   margin-top: 0;
   border: 1px solid #EEE;
