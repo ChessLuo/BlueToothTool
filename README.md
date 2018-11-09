@@ -51,3 +51,5 @@
 ### 四、欢迎体验
 * 目前小程序已经上线，整个开发流程也算是大概了解和尝试过了。最后贴出小程序码，欢迎体验！
 * <img border="1" src="./screenshots/wcode.jpg" width="200" height="auto">
+* 最近建了公众号，欢迎大家关注，一起学习Android、小程序、跨平台开发~
+* ![](./screenshots/myQrcode.jpg)
