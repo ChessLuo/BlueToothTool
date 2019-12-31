@@ -12,6 +12,10 @@ function inArray(arr, key, val) {
 }
 
 
+// 在页面中定义插屏广告
+let interstitialAd = null
+
+
 Page({
   /**
    * 页面的初始数据
@@ -30,6 +34,17 @@ Page({
   onLoad: function(options) {
     var that = this;
     console.log("用户信息", app.globalData.userInfo);
+
+    // 在页面onLoad回调事件中创建插屏广告实例
+    if (wx.createInterstitialAd) {
+      interstitialAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-0eadc609afe6d24d'
+      })
+      interstitialAd.onLoad(() => { })
+      interstitialAd.onError((err) => { })
+      interstitialAd.onClose(() => { })
+    }
+
 
     var log = "获取微信版本号:" + app.getWxVersion() + "\n" +
       "获取客户端系统:" + app.getPlatform() + "\n" +
@@ -74,6 +89,22 @@ Page({
       })
     }
 
+  },
+
+  onShow:function(){
+    // 在适合的场景显示插屏广告
+    if (interstitialAd) {
+      interstitialAd.show().catch((err) => {
+        console.error(err)
+      })
+    }
+  },
+
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+  onReady: function () {
+    
   },
 
   /**
