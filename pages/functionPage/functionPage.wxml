@@ -24,8 +24,9 @@
   </view>
 
   <view class="function-button-div2">
-     <button type="primary" class='function-button_left' bindtap="startClear">清空log日志</button>
-    <button type="primary" class='function-button_right' bindtap="closeBLEConnection">断开蓝牙连接</button>
+     <button type="primary" class='function-button_left' bindtap="startClear">清日志</button>
+     <button type="primary" class='function-button_middle' bindtap="setMTUClick">最大MTU</button>
+    <button type="primary" class='function-button_right' bindtap="closeBLEConnection">断开连接</button>
   </view>
 
 

@@ -45,25 +45,13 @@
 	position: relative;
 }
 .function-button-div2 {
-	width: 100%;
 	position: relative;
-	top: 20px;	
-}
-/*左边的功能按钮*/
-.function-button_left {
-	width: 40%;
-	height: 44px;
-	/*border: 1px solid #f0ad4e;
-	background-color: #f0ad4e;*/
-	float: left;
-	left: 6%;
-}
-/*右边的功能按钮*/
-.function-button_right {
-	width: 40%;
-	height: 44px;
-	/*border: 1px solid #f0ad4e;
-	background-color: #f0ad4e;*/
-	float: left;
-	left: 14%;
+  top: 20px;	
+  font-size: 12rpx;
+
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between
 }

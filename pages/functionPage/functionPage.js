@@ -66,6 +66,13 @@ Page({
       textLog: ""
     });
   },
+
+  //点击设置最大MTU
+  setMTUClick:function(){
+    var that = this;
+    that.setMaxMTU();
+  },
+
   //返回蓝牙是否正处于链接状态
   onBLEConnectionStateChange:function (onFailCallback) {
     wx.onBLEConnectionStateChange(function (res) {
@@ -205,13 +212,14 @@ Page({
       serviceId: that.data.serviceId,
       characteristicId: that.data.writeCharacteristicId,
       // 这里的value是ArrayBuffer类型
-      value: order.slice(0, 20),
+      // value: order.slice(0, 20),
+      value: order,
       success: function (res) {
-        if (byteLength > 20) {
-          setTimeout(function(){
-            // that.writeBLECharacteristicValue(order.slice(20, byteLength));
-          },150);
-        }
+        // if (byteLength > 20) {
+        //   setTimeout(function(){
+        //     // that.writeBLECharacteristicValue(order.slice(20, byteLength));
+        //   },150);
+        // }
         var log = that.data.textLog + "写入成功：" + res.errMsg + "\n";
         that.setData({
           textLog: log,
@@ -227,5 +235,30 @@ Page({
       
     })
   },
+
+  //设置最大MTU
+  //设置蓝牙最大传输单元。需在 wx.createBLEConnection调用成功后调用，mtu 设置范围 (22,512)。安卓5.1以上有效。
+  setMaxMTU:function(){
+    var that = this;
+    wx.setBLEMTU({
+      deviceId: that.data.deviceId,
+      mtu: 512,
+      success:(res)=>{
+        console.log("setBLEMTU success>>", res)
+        var log = that.data.textLog + "设置最大MTU成功：res=" +JSON.stringify(res)+"\n";
+        that.setData({
+          textLog: log,
+        });
+
+      },
+      fail:(res)=>{
+        console.log("setBLEMTU fail>>", res)
+        var log = that.data.textLog + "设置最大MTU失败：res=" +JSON.stringify(res)+"\n";
+        that.setData({
+          textLog: log,
+        });
+      }
+    })
+  }
 
 })
